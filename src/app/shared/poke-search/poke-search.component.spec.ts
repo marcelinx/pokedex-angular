@@ -1,15 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PokeSearchComponent } from './poke-search.component';
 
 describe('PokeSearchComponent', () => {
   let component: PokeSearchComponent;
   let fixture: ComponentFixture<PokeSearchComponent>;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PokeSearchComponent],
+    }).compileComponents();
+  });
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [PokeSearchComponent]
-    });
     fixture = TestBed.createComponent(PokeSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -17,5 +19,18 @@ describe('PokeSearchComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit search value', () => {
+    const valueToSearch = 'pikachu';
+    let emittedValue: string | undefined;
+
+    component.emmitSearch.subscribe((value) => {
+      emittedValue = value;
+    });
+
+    component.search(valueToSearch);
+
+    expect(emittedValue).toBe(valueToSearch);
   });
 });
